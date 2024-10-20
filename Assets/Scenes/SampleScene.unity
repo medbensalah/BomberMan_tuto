@@ -176,6 +176,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d16cb1b8-e356-4be4-bd5e-ea39ce2186a9
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 921196499}
+        m_TargetAssemblyTypeName: PlayerMovementController, Assembly-CSharp
+        m_MethodName: OnBomb
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a91b74ff-c7ad-425b-9283-5da500d71cf7
+    m_ActionName: 'Player/Bomb[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4368,6 +4384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 7
   _snapError: 0.5
+  _bombPrefab: {fileID: 5878754709539261038, guid: 96f7b85bd23cf61409c17ea18776a6a2, type: 3}
 --- !u!50 &921196500
 Rigidbody2D:
   serializedVersion: 5

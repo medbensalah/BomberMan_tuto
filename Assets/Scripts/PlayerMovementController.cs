@@ -4,8 +4,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    public static PlayerMovementController Instamce;
+    
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _snapError = 0.5f;
+
+    [SerializeField] private GameObject _bombPrefab;
 
     private Vector2 _moveDir = Vector2.zero;
     private bool _isWalking = false;
@@ -28,6 +32,25 @@ public class PlayerMovementController : MonoBehaviour
     private Animator _animator;
     private static readonly int Walking = Animator.StringToHash("Walking");
 
+    private void Awake()
+    {
+        if (Instamce == null)
+        {
+            Instamce = this;
+        }
+        else if (Instamce != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instamce == this)
+        {
+            Instamce = null;
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +69,17 @@ public class PlayerMovementController : MonoBehaviour
         _rigidbody.linearVelocity = _moveDir * _speed;
     }
 
+
+    public void OnBomb(InputAction.CallbackContext ctx)
+    {
+        if (ctx.canceled)
+        {
+            Vector3 pos = transform.position;
+            Vector3 bombPos = new Vector3(Mathf.Round(pos.x), Mathf.Round(pos.y) + 0.5f, pos.z);
+            Instantiate(_bombPrefab, bombPos, Quaternion.identity);
+        }
+    }
+    
     public void OnMove(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
