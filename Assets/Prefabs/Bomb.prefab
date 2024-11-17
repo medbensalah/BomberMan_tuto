@@ -178,4 +178,7 @@ MonoBehaviour:
   _beam: {fileID: 4723947355708220894, guid: 53e19adadc02f2649ab5463f2cb910c6, type: 3}
   _beamEnd: {fileID: 4535625186133452066, guid: 71f998db557c2234a96818a882d9ffc6, type: 3}
   _timer: 2
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 64
   <Range>k__BackingField: 5

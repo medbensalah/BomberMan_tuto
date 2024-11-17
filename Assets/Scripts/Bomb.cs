@@ -8,8 +8,11 @@ public class Bomb : MonoBehaviour
     [SerializeField] private GameObject _beamEnd;
     [SerializeField] private float _timer = 2.0f;
 
+    [SerializeField] private LayerMask _wallLayer;
+    [SerializeField] private LayerMask _breakableLayer;
+
     [field: SerializeField] public float Range { get; set; } = 1;
-    
+
     private BoxCollider2D _boxCollider;
     private float _countdown = 0.0f;
 
@@ -23,7 +26,6 @@ public class Bomb : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -61,18 +63,57 @@ public class Bomb : MonoBehaviour
     {
         Vector2 origin = transform.position;
 
-        Vector2 pos = origin + dir * Range;
-        InsantiateBeam(pos, dir, true);
+        RaycastHit2D wallHit = Physics2D.Raycast(origin, dir, Range, _wallLayer);
+        RaycastHit2D breakableHit = Physics2D.Raycast(origin, dir, Range, _breakableLayer);
+        bool hitWall = wallHit.collider;
+        bool hitBreakable = breakableHit.collider;
 
-        int i = 1;
-        while ((pos - origin).magnitude > 1.0f)
+        if (hitBreakable && hitWall)
         {
-            pos -= i * dir;
-            InsantiateBeam(pos, dir, false);
+            if (wallHit.distance < breakableHit.distance)
+                hitBreakable = false;
+            else
+                hitWall = false;
+        }
+
+        if (hitWall)
+        {
+            float dist = (wallHit.point - origin).magnitude;
+            if (dist <= 1.0f)
+                return;
+
+            Vector2 pos = wallHit.point - dir * 0.5f;
+            InstantiateBeam(pos, dir, true);
+            
+            for(int i = 1; i < dist - 1; ++i)
+                InstantiateBeam( pos - i * dir, dir, false);
+        }
+        else if (hitBreakable)
+        {
+            float dist = (breakableHit.point - origin).magnitude;
+            
+            Vector2 pos = wallHit.point + dir * 0.5f;
+            InstantiateBeam(pos, dir, true);
+            
+            for(int i = 1; i < dist - 1; ++i)
+                InstantiateBeam( pos - i * dir, dir, false);
+        }
+        else
+        {
+            Vector2 pos = (Vector2)transform.position + dir * Range;
+            InstantiateBeam(pos, dir, true);
+
+            int i = 1;
+
+            while ((pos - (Vector2)transform.position).magnitude > 1.0f)
+            {
+                pos -= i * dir;
+                InstantiateBeam(pos, dir, false);
+            }
         }
     }
 
-    private void InsantiateBeam(Vector2 pos, Vector2 dir, bool end)
+    private void InstantiateBeam(Vector2 pos, Vector2 dir, bool end)
     {
         Quaternion quat = Quaternion.identity;
         if (dir == Vector2.up)
