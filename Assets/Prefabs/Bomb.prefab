@@ -181,4 +181,7 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 64
+  _breakableLayer:
+    serializedVersion: 2
+    m_Bits: 128
   <Range>k__BackingField: 5

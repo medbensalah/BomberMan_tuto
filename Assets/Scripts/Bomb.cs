@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Bomb : MonoBehaviour
+public class Bomb : Breakable
 {
     [SerializeField] private GameObject _beam;
     [SerializeField] private GameObject _beamEnd;
@@ -44,7 +44,7 @@ public class Bomb : MonoBehaviour
         }
     }
 
-    private void Explode()
+    protected override void Explode()
     {
         Detonate();
         Destroy(gameObject);
@@ -92,7 +92,7 @@ public class Bomb : MonoBehaviour
         {
             float dist = (breakableHit.point - origin).magnitude;
             
-            Vector2 pos = wallHit.point + dir * 0.5f;
+            Vector2 pos = breakableHit.point + dir * 0.5f;
             InstantiateBeam(pos, dir, true);
             
             for(int i = 1; i < dist - 1; ++i)
