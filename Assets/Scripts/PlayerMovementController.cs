@@ -10,6 +10,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _snapError = 0.5f;
 
     [SerializeField] private GameObject _bombPrefab;
+    
+    [SerializeField] private PlayerInput _playerInput;
 
     private Vector2 _moveDir = Vector2.zero;
     private bool _isWalking = false;
@@ -31,6 +33,7 @@ public class PlayerMovementController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private static readonly int Walking = Animator.StringToHash("Walking");
+    private static readonly int Death = Animator.StringToHash("Death");
 
     private void Awake()
     {
@@ -57,11 +60,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     private void FixedUpdate()
@@ -125,5 +123,21 @@ public class PlayerMovementController : MonoBehaviour
             roundY = true;
 
         _rigidbody.position = new Vector2(roundX ? Mathf.Round(x) : x, roundY ? Mathf.Round(y) : y);
+    }
+    
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Explosion"))
+        {
+            Debug.Log("enter trigger Explosion");
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        _animator.SetTrigger(Death);
+        _playerInput.currentActionMap.Disable();
     }
 }

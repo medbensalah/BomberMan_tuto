@@ -11,7 +11,7 @@ public class Bomb : Breakable
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private LayerMask _breakableLayer;
 
-    [field: SerializeField] public float Range { get; set; } = 1;
+    public static float Range { get; set; } = 1;
 
     private BoxCollider2D _boxCollider;
     private float _countdown = 0.0f;
