@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class Breakable : MonoBehaviour
 {
+    private void Start()
+    {
+        Physics2D.SyncTransforms();
+        NavMeshManager.Instance.UpdateNavMesh();
+    }
+
     protected virtual void Explode() {}
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -11,5 +17,11 @@ public class Breakable : MonoBehaviour
         {
             Explode();
         }
+    }
+
+    private void OnDestroy()
+    {
+        Physics2D.SyncTransforms();
+        NavMeshManager.Instance.UpdateNavMesh();
     }
 }

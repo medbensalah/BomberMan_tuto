@@ -128,9 +128,8 @@ public class PlayerMovementController : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Explosion"))
+        if (other.gameObject.CompareTag("Explosion") || other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("enter trigger Explosion");
             Die();
         }
     }
