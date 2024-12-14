@@ -134,6 +134,14 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Explosion") || other.gameObject.CompareTag("Enemy"))
+        {
+            Die();
+        }
+    }
+
     private void Die()
     {
         _animator.SetTrigger(Death);
