@@ -30,6 +30,7 @@ public class SlimePatrol : EnemyBase
 
         while (!_navMeshAgent.isOnNavMesh)
         {
+            Debug.Log("not on mesh", gameObject);
             yield return new WaitForEndOfFrame();
         }
 
